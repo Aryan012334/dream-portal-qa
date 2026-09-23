@@ -11,7 +11,7 @@ export default defineConfig({
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
   ],
   use: {
-    baseURL: 'https://arjitnigam.github.io/myDreams',
+    baseURL: 'https://arjitnigam.github.io/myDreams/',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
