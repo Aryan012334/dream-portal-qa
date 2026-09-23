@@ -1,0 +1,18 @@
+{
+  "name": "dream-portal-qa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright UI automation for the Dream Portal assignment",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3"
+  }
+}
