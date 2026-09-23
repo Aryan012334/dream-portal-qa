@@ -4,34 +4,27 @@ import { DreamsDiaryPage, DreamEntry } from './pages/DreamsDiaryPage';
 type DreamClassification = 'Good' | 'Bad';
 
 async function classifyDreamName(name: string): Promise<DreamClassification> {
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+  const response = await fetch(process.env.OLLAMA_URL ?? 'http://localhost:11434/api/generate', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: process.env.OPENAI_MODEL ?? 'gpt-4o-mini',
-      temperature: 0,
-      response_format: { type: 'json_object' },
-      messages: [
-        {
-          role: 'system',
-          content: 'Classify dream names as Good or Bad. Return only JSON in the form {"classification":"Good"} or {"classification":"Bad"}.',
-        },
-        { role: 'user', content: name },
-      ],
+      model: process.env.OLLAMA_MODEL ?? 'llama3.2:3b',
+      stream: false,
+      format: 'json',
+      prompt: `Classify this dream name as Good or Bad. Return only JSON in the form {"classification":"Good"} or {"classification":"Bad"}. Dream name: ${name}`,
     }),
   });
 
   if (!response.ok) {
-    throw new Error(`OpenAI classification failed with HTTP ${response.status}: ${await response.text()}`);
+    throw new Error(`Ollama classification failed with HTTP ${response.status}: ${await response.text()}`);
   }
 
-  const payload = await response.json() as { choices?: [{ message?: { content?: string } }] };
-  const content = payload.choices?.[0]?.message?.content;
+  const payload = await response.json() as { response?: string };
+  const content = payload.response;
   if (!content) {
-    throw new Error(`OpenAI response did not contain a classification for "${name}"`);
+    throw new Error(`Ollama response did not contain a classification for "${name}"`);
   }
 
   const classification = (JSON.parse(content) as { classification?: string }).classification;
@@ -47,7 +40,7 @@ function expectedClassifications(entries: DreamEntry[]): Map<string, DreamClassi
 
 test.describe('AI dream classification', () => {
   test('classifies every unique dream name consistently with the diary', async ({ page }) => {
-    test.skip(!process.env.OPENAI_API_KEY, 'Set OPENAI_API_KEY to run the optional AI validation.');
+    test.skip(!process.env.RUN_OLLAMA_TEST, 'Set RUN_OLLAMA_TEST=1 to run the optional local AI validation.');
 
     const diary = new DreamsDiaryPage(page);
     await page.goto('dreams-diary.html');

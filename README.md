@@ -32,17 +32,18 @@ npm run report
 
 The default test run is deterministic and needs no credentials. Screenshots, traces, and videos are stored with Playwright results; the HTML report is written to `playwright-report/`.
 
-## Optional AI Validation
+## Optional AI Validation with Ollama
 
-Copy `.env.example` to `.env` or set the variables in the shell. The test is skipped when `OPENAI_API_KEY` is absent.
+The bonus test uses Ollama locally, so it does not require a paid API or an API key. Install Ollama from [ollama.com/download/windows](https://ollama.com/download/windows), then download the model:
 
 ```powershell
-$env:OPENAI_API_KEY = 'your-key'
-$env:OPENAI_MODEL = 'gpt-4o-mini'
+$env:OLLAMA_MODEL = 'llama3.2:3b'
+ollama pull llama3.2:3b
+$env:RUN_OLLAMA_TEST = '1'
 npx playwright test tests/ai-classification.spec.ts
 ```
 
-The classifier requests a constrained JSON response with temperature `0`, checks the response is exactly `Good` or `Bad`, and compares it with the label already present in the diary. Never commit `.env` or API keys.
+Ollama must be running at `http://localhost:11434`. The classifier requests JSON, checks the response is exactly `Good` or `Bad`, and compares it with the label already present in the diary. The test is skipped when `RUN_OLLAMA_TEST` is absent.
 
 ## Project Structure
 
