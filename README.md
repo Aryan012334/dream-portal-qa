@@ -10,7 +10,7 @@ Playwright and TypeScript automation for the Dream Portal assignment:
 - Diary contains exactly 10 complete rows and only `Good` or `Bad` types.
 - Recurring dreams are calculated from diary data and verified as `Flying over mountains` and `Lost in maze`.
 - Summary verifies Good `6`, Bad `4`, Total `10`, and Recurring `2`.
-- Optional OpenAI validation classifies each unique dream name and compares it with the diary.
+- Optional Ollama validation classifies each unique dream name and compares it with the diary.
 
 ## Local Setup
 
