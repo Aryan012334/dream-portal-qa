@@ -13,7 +13,7 @@ export default defineConfig({
   use: {
     baseURL: 'https://arjitnigam.github.io/myDreams/',
     trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
+    screenshot: 'on',
     video: 'retain-on-failure',
   },
   projects: [
