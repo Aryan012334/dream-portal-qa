@@ -4,7 +4,7 @@ import { DreamsDiaryPage } from './pages/DreamsDiaryPage';
 import { DreamsTotalPage } from './pages/DreamsTotalPage';
 
 test.describe('Dream Portal home', () => {
-  test('shows loading state before revealing the portal', async ({ page }) => {
+  test('shows an animated loading state for about three seconds before revealing the portal', async ({ page }) => {
     const home = new DreamPortalHomePage(page);
     await home.open();
     await home.expectLoadingState();
