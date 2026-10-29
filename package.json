@@ -5,14 +5,21 @@
   "description": "Playwright UI automation for the Dream Portal assignment",
   "scripts": {
     "test": "playwright test",
+    "test:core": "playwright test tests/home.spec.ts tests/dreams-diary.spec.ts tests/dreams-total.spec.ts tests/cross-page.spec.ts",
+    "test:ai": "playwright test tests/ai-classification.spec.ts",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "report": "playwright show-report",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "allure:serve": "allure serve allure-results",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@types/node": "^22.15.0",
+    "allure-commandline": "^2.46.1",
+    "allure-playwright": "^3.14.0",
     "typescript": "^5.8.3"
   }
 }
